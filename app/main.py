@@ -135,5 +135,5 @@ def get_recipes():
 
 
 #DEBUG MODE!!
-##if __name__ == '__main__':
-##    app.run(host='0.0.0.0', port=105, debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=105, debug=True)
