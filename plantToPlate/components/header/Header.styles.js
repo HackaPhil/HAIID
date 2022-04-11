@@ -1,9 +1,14 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-    background: {
-      flex: 1,
+    header: {
+      height: 600,
+      top: -500,
+      width: '160%',
+      backgroundColor: '#32910F',
+      justifyContent: 'flex-end',
       alignItems: 'center',
+      borderRadius: 300,
     },
     text: {
       color: '#fff',
@@ -11,9 +16,6 @@ export default StyleSheet.create({
       fontWeight: 'bold',
       textAlign: 'center',
       padding: 20,
-      marginTop: 30,
+      marginBottom: 50,
     },
-    btn: {
-      bottom: 40,
-    }
 });

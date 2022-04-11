@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native'
 import styles from './Welcome.styles.js';
 import Logo from '../../../components/icons/Logo.js';
+import GreenButton from '../../../components/greenButton/GreenButton.js';
 
 const Welcome = ({navigation}) => {
     return (
@@ -12,11 +13,7 @@ const Welcome = ({navigation}) => {
         do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
         Ut enim ad minim veniam, quis nostrud exe</Text>
 
-        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('DietReq')}>
-          <Text style={styles.btnText}>          
-            Start
-          </Text>
-        </TouchableOpacity>
+        <GreenButton text="Start" onPress={() => navigation.navigate('DietReq')}></GreenButton>
       </View>
     );
 };

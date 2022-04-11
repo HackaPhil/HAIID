@@ -1,17 +1,22 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, SafeAreaView, Text, TouchableOpacity, ScrollView } from 'react-native'
 import styles from './DietReq.styles.js';
-import Logo from '../../../components/icons/Logo.js';
+import GreenButton from '../../../components/greenButton/GreenButton.js';
+import Header from '../../../components/header/Header.js';
 
-const DietReq = ({title}) => {
+const DietReq = ({navigation, isIntro}) => {
     return (
-      <View style={styles.background}>
-        <TouchableOpacity style={styles.btn}>
-          <Text style={styles.btnText}>          
-            Skip
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <SafeAreaView style={styles.background}>
+        <Header title="Dietary Requirements" notifications='false'></Header>
+
+        <ScrollView>
+          
+        </ScrollView>
+
+        {{isIntro} ? <GreenButton text="Continue" style={styles.btn} onPress={() => navigation.navigate('MyIngredients')}></GreenButton>
+        : <Text></Text>}   
+
+      </SafeAreaView>
     );
 };
   

@@ -7,27 +7,41 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Welcome from './navigation/intro/welcome/Welcome';
 import DietReq from './navigation/intro/dietReq/DietReq';
+import MainCamera from './navigation/main/mainCamera/MainCamera';
+import MyIngredients from './navigation/main/myIngredients/MyIngredients';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  
-  // const startIntro = () => {
-  //   return;
-  // }
+
+  const isIntro = true;
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Navigator screenOptions={{
+        headerTitle: '',
+        headerStyle: {
+          backgroundColor: '#32910F',
+        },
+        headerShadowVisible: false,
+        shadowColor: 'transparent',
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
 
-        <Stack.Screen name="Welcome" component={Welcome} />
+        {{isIntro} ? <Stack.Screen name="Welcome" component={Welcome} />
+        : <Stack.Screen name="MainCamera" component={MainCamera} />}
 
         <Stack.Screen name="DietReq" component={DietReq} />
 
+        <Stack.Screen name="MyIngredients" component={MyIngredients} isIntro={isIntro} />
+
+        <Stack.Screen name="MainCamera" component={MainCamera} />
+
       </Stack.Navigator>
     </NavigationContainer>
-
-    // <Welcome startIntro={startIntro}></Welcome>
   );
   
 };
