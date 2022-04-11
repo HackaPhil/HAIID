@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="aKm-7t-mtS">
+                                <rect key="frame" x="0.0" y="44" width="414" height="808"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Jkr-Fu-zBs"/>
+                        <color key="backgroundColor" red="0.3058823645" green="0.56078433989999998" blue="0.1725490093" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="aKm-7t-mtS" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="AwT-oR-43r"/>
+                            <constraint firstItem="aKm-7t-mtS" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-16" id="CUB-AC-Mcg"/>
+                            <constraint firstItem="aKm-7t-mtS" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Dg5-PC-jJN"/>
+                            <constraint firstItem="aKm-7t-mtS" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="topMargin" id="MsF-Ee-X7V"/>
+                            <constraint firstItem="Jkr-Fu-zBs" firstAttribute="trailing" secondItem="aKm-7t-mtS" secondAttribute="trailing" id="Swz-D5-bfl"/>
+                            <constraint firstItem="aKm-7t-mtS" firstAttribute="leading" secondItem="Jkr-Fu-zBs" secondAttribute="leading" id="YYg-i4-sFu"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="aKm-7t-mtS" secondAttribute="bottom" id="dwb-tS-ljN"/>
+                            <constraint firstItem="aKm-7t-mtS" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="fNQ-2b-ewH"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="aKm-7t-mtS" secondAttribute="trailing" constant="-16" id="nc9-Qd-Om1"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="CUB-AC-Mcg"/>
+                                <exclude reference="dwb-tS-ljN"/>
+                                <exclude reference="nc9-Qd-Om1"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="51.86915887850467" y="374.51403887688986"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="LaunchScreen" width="500" height="750"/>
+    </resources>
+</document>
