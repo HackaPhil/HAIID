@@ -1,4 +1,4 @@
-from flask import Flask, send_file, request
+from flask import Flask, send_file, request, jsonify
 from tensorflow import keras
 import spoonacular
 import cv2
@@ -16,7 +16,7 @@ app = Flask(__name__)
 api = spoonacular.API(API_KEY)
 
 home_dir = os.path.expanduser("~")
-UPLOAD_FOLDER = "/upload_images" #change to host directory
+UPLOAD_FOLDER = "./upload_images" #changed to host directory
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 classifier = keras.models.load_model('classifierModel')
@@ -61,7 +61,8 @@ def recipe_search(query):
 def get_growth_stage():
     new_file = request.files['image']
     file_name = secure_filename(new_file.filename)
-    new_file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
+    #new_file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
+    new_file.save(app.config['UPLOAD_FOLDER'] + "/" + file_name)
     image = np.array([cv2.resize(cv2.imread('upload_images/' + file_name)/255, (224, 224), interpolation = cv2.INTER_AREA)])
     
     imageClass = np.argmax(classifier.predict(image)[0])
@@ -122,9 +123,15 @@ def get_recipes():
                     if diet in rec_details['diets']:
                         valid_recipes.append(rec)
     #except Exception as e:
-        #return "Hi there " + str(e)
-    
+        #return "Hi there " + str(e) 
+   
     return str(valid_recipes)
+
+@app.route("/some_thing", methods = ["GET"])
+def anything():
+    response = jsonify({"message":"greetings from the python server!!!!"})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 ##@app.route("/generate_meal_plan")
 ##def get_meal_plan():
@@ -136,4 +143,4 @@ def get_recipes():
 
 #DEBUG MODE!!
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=105, debug=True)
+    app.run(host='192.168.0.11', port=5000, debug=True)
