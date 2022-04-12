@@ -1,19 +1,17 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-    background: {
-      flex: 1,
+    btn: {
+      top: 20,
+      backgroundColor: '#40B913',
+      borderRadius: 50,
+      justifyContent: 'center',
       alignItems: 'center',
     },
-    text: {
+    icon: {
+      margin: 20,
       color: '#fff',
-      fontSize: 22,
       fontWeight: 'bold',
       textAlign: 'center',
-      padding: 20,
-      marginTop: 30,
     },
-    btn: {
-      bottom: 40,
-    }
-});
+}); 
