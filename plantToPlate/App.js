@@ -38,7 +38,9 @@ const App = () => {
 
         <Stack.Screen name="MyIngredients" component={MyIngredients} isIntro={isIntro} />
 
-        <Stack.Screen name="MainCamera" component={MainCamera} />
+        <Stack.Screen options={{
+          headerShown: false,
+        }} name="MainCamera" component={MainCamera} />
 
       </Stack.Navigator>
     </NavigationContainer>

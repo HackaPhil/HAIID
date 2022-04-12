@@ -13,8 +13,4 @@ const Header = ({title, notifications}) => {
   );
 };
 
-Header.defaultProps = {
-    title: "Lover List",
-}
-
 export default Header;
