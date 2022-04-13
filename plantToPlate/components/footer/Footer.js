@@ -7,16 +7,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBars, faCaretDown, faGear, faCamera, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 
-const Footer = ({isCamera}) => {
-  const menuAnim = useRef(new Animated.Value(0)).current;
+const Footer = ({isCamera, navigation}) => {
+  const menuSlide = useRef(new Animated.Value(0)).current;
+  const menuFade = useRef(new Animated.Value(1)).current;
+
   const [menuOpen, setMenuOpen] = useState(false);
 
   openMenu = () => {
     Animated.timing(
-        menuAnim,
+        menuSlide,
         {
           toValue: -410,
-          duration: 500,
+          duration: 250,
           useNativeDriver: true,
         }
     ).start();
@@ -25,27 +27,61 @@ const Footer = ({isCamera}) => {
 
    closeMenu = () => {
     Animated.timing(
-        menuAnim,
+        menuSlide,
         {
           toValue: 0,
-          duration: 500,
+          duration: 250,
           useNativeDriver: true,
         }
     ).start();
     setMenuOpen(false);
    };
 
+   leavePage = (pageName) => {
+    Animated.timing(
+        menuFade,
+        {
+          toValue: 0,
+          duration: 100,
+          useNativeDriver: true,
+        }
+    ).start();
+    setTimeout(function(){
+        navigation.navigate(pageName);  
+    }, 100);
+   };
+
+
   return (
-    <Animated.View style={[styles.container, {transform: [{translateY: menuAnim}]}]}>
+    <Animated.View style={[styles.container, {transform: [{translateY: menuSlide}], opacity: menuFade}]}>
         <View style={styles.footer}>
-            <View style={styles.btnBox}>
+            {!menuOpen && <View style={styles.btnBox}>
                 <TouchableOpacity onPress={this.openMenu} >
                     <FontAwesomeIcon style={styles.btn} icon={faBars} size={30}/>
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <FontAwesomeIcon style={styles.btn} icon={faGear} size={30}/>
                 </TouchableOpacity>
+            </View>}
+
+            <View style={styles.menu}>
+                <TouchableOpacity style={styles.menuBtn}>
+                    <Text style={styles.menuText}>My Garden</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.menuBtn} onPress={() => this.leavePage('MyIngredients')}>
+                    <Text style={styles.menuText}>My Ingredients</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.menuBtn}>
+                    <Text style={styles.menuText}>Meal Generator</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.menuBtn}>
+                    <Text style={styles.menuText}>Settings</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.menuBtn}>
+                    <Text style={styles.menuText}>FAQ</Text>
+                </TouchableOpacity>
             </View>
+
         </View>
 
         <View style={styles.cameraBtn}>

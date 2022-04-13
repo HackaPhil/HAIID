@@ -14,7 +14,7 @@ const MyIngredients = ({navigation, isIntro}) => {
         </ScrollView>
 
         {{isIntro} ? <GreenButton text="Continue" onPress={() => navigation.navigate('MainCamera')}></GreenButton>
-        : <Text></Text>}
+        : <Footer isCamera={true} navigation={navigation}></Footer>}
         
       </SafeAreaView>
     );

@@ -13,8 +13,19 @@ import MyIngredients from './navigation/main/myIngredients/MyIngredients';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  const [isIntro, setIsIntro] = useState(true);
 
-  const isIntro = true;
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     // Do something when the screen is focused
+  //     isIntro.setIsIntro(false);
+      
+  //     return () => {
+  //       // Do something when the screen is unfocused
+  //       // Useful for cleanup functions
+  //     };
+  //   }, [])
+  // );
 
   return (
     <NavigationContainer>
@@ -31,12 +42,14 @@ const App = () => {
         },
       }}>
 
-        {{isIntro} ? <Stack.Screen name="Welcome" component={Welcome} />
-        : <Stack.Screen name="MainCamera" component={MainCamera} />}
+        {isIntro ? <Stack.Screen name="Welcome" component={Welcome} />
+        : <Stack.Screen name="MainCamera" component={MainCamera} arrived={isIntro.setIsIntro(false)} />}
 
         <Stack.Screen name="DietReq" component={DietReq} />
 
-        <Stack.Screen name="MyIngredients" component={MyIngredients} isIntro={isIntro} />
+        <Stack.Screen options={{
+          headerShown: isIntro ? true : false,
+        }} name="MyIngredients" component={MyIngredients} isIntro={isIntro} />
 
         <Stack.Screen options={{
           headerShown: false,
