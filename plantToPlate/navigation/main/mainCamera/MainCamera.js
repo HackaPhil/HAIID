@@ -6,6 +6,11 @@ import Footer from '../../../components/footer/Footer';
 import GreenButtonRound from '../../../components/greenButtonRound/GreenButtonRound';
 import styles from './MainCamera.styles';
 import { faFileImage, faBell, faBolt } from '@fortawesome/free-solid-svg-icons';
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs([
+"ViewPropTypes will be removed",
+])
 
 const PendingView = () => (
     <View
@@ -36,7 +41,7 @@ const MainCamera = ({navigation, arrived}) => {
         const result = await launchImageLibrary(options);
 
         // *** Image data
-        console.log(result.uri);
+        console.log(result);
     };
 
     return (
