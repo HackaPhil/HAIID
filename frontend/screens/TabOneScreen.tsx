@@ -8,6 +8,7 @@ import { RootTabScreenProps } from '../types';
 import { FAB, Portal, Provider, Title } from 'react-native-paper';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import * as ImagePicker from 'react-native-image-picker';
+import * as cam from 'react-native-vision-camera';
 
 //const ImagePicker = require('react-native-image-picker');
 
@@ -21,7 +22,6 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   };
   
   
-
 
 
   const getDataUsingSimpleGetCall = () => {
@@ -40,6 +40,10 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
         alert('Finally called');
       });
   }
+
+  
+
+
   const [state, setState] = React.useState({ open: false });
 
   const onStateChange = ({ open } : {open:any}) => setState({ open});
@@ -75,6 +79,8 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
       }
       title = "Select Image" />
 
+
+
       <Button onPress = {
         () =>
         ImagePicker.launchCamera(options, (response) => {
@@ -84,6 +90,25 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
         })
       }
       title = "Select Image dude" />
+
+
+      <Button onPress= { 
+        () =>
+        {
+          const devices = cam.useCameraDevices('wide-angle-camera')
+          const device = devices.back
+      
+          if (device == null) return <LoadingView />
+          return (
+            <cam.Camera
+              style={StyleSheet.absoluteFill}
+              device={device}
+              isActive={true}
+            />
+          )
+        }
+      }
+      title = "Select Image new" />
 
 
 
