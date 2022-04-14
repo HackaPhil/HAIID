@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBars, faCaretDown, faGear, faCamera, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 
-const Footer = ({isCamera, navigation}) => {
+const Footer = ({isCamera, takePic, navigation}) => {
   const menuSlide = useRef(new Animated.Value(0)).current;
   const menuFade = useRef(new Animated.Value(1)).current;
 
@@ -86,7 +86,7 @@ const Footer = ({isCamera, navigation}) => {
 
         <View style={styles.cameraBtn}>
             {menuOpen ? <GreenButtonRound iconName={faCaretDown} onPress={this.closeMenu}></GreenButtonRound>
-            : <GreenButtonRound iconName={isCamera ? faCamera : faCaretUp}></GreenButtonRound>}
+            : <GreenButtonRound iconName={isCamera ? faCamera : faCaretUp} iconSize={50} onPress={takePic}></GreenButtonRound>}
         </View>
     </Animated.View>
   );

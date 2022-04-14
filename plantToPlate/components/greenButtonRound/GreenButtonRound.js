@@ -5,17 +5,16 @@ import styles from './GreenButtonRound.styles.js';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 
-const GreenButtonRound = ({iconName, onPress}) => {
+const GreenButtonRound = ({iconName, iconSize, onPress}) => {
   return (
     <TouchableOpacity style={styles.btn} onPress={onPress}>
-        {/* <Text style={styles.btnText}>          
-          <FontAwesomeIcon icon={iconName} size={30} />
-        </Text> */}
-
-        <FontAwesomeIcon style={styles.icon} icon={iconName} size={50} />
-
+      <FontAwesomeIcon style={styles.icon} icon={iconName} size={iconSize} />
     </TouchableOpacity>
   );
 };
+
+GreenButtonRound.defaultProps = {
+  iconSize: 50,
+}
 
 export default GreenButtonRound;

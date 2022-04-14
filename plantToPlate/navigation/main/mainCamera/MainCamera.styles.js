@@ -1,7 +1,14 @@
 import { StyleSheet } from 'react-native';
+import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default StyleSheet.create({
-    background: {
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: 'black',
+        alignItems: 'center',
+    },
+    preview: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'flex-end',
@@ -14,7 +21,17 @@ export default StyleSheet.create({
       padding: 20,
       marginTop: 30,
     },
+    header: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        position: 'absolute',
+        width: '90%',
+        zIndex: 1,
+        top: 20,
+        opacity: 0.75,
+    },
     btn: {
-      bottom: 40,
+    //   marginLeft: 20,
     }
 });
