@@ -37,5 +37,19 @@ export default StyleSheet.create({
         marginTop: 22,
         marginHorizontal: 100,
         color: '#fff',
+    },
+    menu: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 100,
+    },
+    menuBtn: {
+        paddingVertical: 26,
+    },
+    menuText: {
+        color: '#fff',
+        fontSize: 22,
+        fontWeight: 'bold',
     }
 });
