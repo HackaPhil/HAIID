@@ -20,17 +20,17 @@ api = spoonacular.API(API_KEY)
 
 classifier = keras.models.load_model('classifierModel')
 
-strawberryModel = keras.models.load_model('strawberryModel')
-onionModel = keras.models.load_model('onionModel')
-carrotModel = keras.models.load_model('carrotModel')
-beetrootModel = keras.models.load_model('beetrootModel')
-cucumberModel = keras.models.load_model('cucumberModel')
-tomatoModel = keras.models.load_model('tomatoModel')
-#potatoModel = keras.models.load_model('potatoModel')
-#pepperModel = keras.models.load_model('pepperModel')
+strawberryModel = load_model('strawberryModel')
+onionModel = load_model('onionModel')
+carrotModel = load_model('carrotModel')
+beetrootModel = load_model('beetrootModel')
+cucumberModel = load_model('cucumberModel')
+tomatoModel = load_model('tomatoModel')
+potatoModel = load_model('potatoModel')
+pepperModel = load_model('pepperModel')
 
-modelArray = [beetrootModel, carrotModel, cucumberModel, onionModel, strawberryModel, tomatoModel] #potatoModel pepperModel
-classNames = ["beetroot", "carrot", "cucumber", "onion", "strawberry", "tomato"] #potato pepper
+modelArray = [beetrootModel, carrotModel, cucumberModel, onionModel, pepperModel, potatoModel, strawberryModel, tomatoModel]
+classNames = ["beetroot", "carrot", "cucumber", "onion", "pepper", "potato", "strawberry", "tomato"]
 
 @app.route("/")
 def home_view():
@@ -117,13 +117,14 @@ def calculate_progress(prediction, imageClass):
     elif imageClass == 3:
         progress = (1.5*prediction[0][0] + 6.5*prediction[0][1] + 11*prediction[0][2])/11
     elif imageClass == 4:
-        progress = (prediction[0][0] + 2.5*prediction[0][1]+4*prediction[0][2]+6*prediction[0][3])/6
+        progress = (4*prediction[0][0] + 10*prediction[0][1] + 14*prediction[0][2])/14
     elif imageClass == 5:
+        progress = (4*prediction[0][0] + 10.5*prediction[0][1] + 14.5*prediction[0][2])/14.5
+    elif imageClass == 6:
+        progress = (prediction[0][0] + 2.5*prediction[0][1]+4*prediction[0][2]+6*prediction[0][3])/6
+    elif imageClass == 7:
         progress = (prediction[0][0] + 3*prediction[0][1] + 6.5*prediction[0][2] + 8*prediction[0][3])/8
-    #elif imageClaass == 6:
-    #    progress = (##*prediction[0][0] + ##*prediction[0][1] + ##*prediction[0][2])/##
-    #elif imageClaass == 7:
-    #    progress = (##*prediction[0][0] + ##*prediction[0][1] + ##*prediction[0][2])/##
+
 
     return str(progress)
 
