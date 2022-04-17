@@ -101,7 +101,7 @@ def get_progress():
 
     value = calculate_progress(prediction, imageClass)
 
-    response = jsonify({"value":value})
+    response = jsonify({"value":value, "species":classNames[imageClass]})
     response.headers.add('Access-Control-Allow-Origin', '*')
 
     
