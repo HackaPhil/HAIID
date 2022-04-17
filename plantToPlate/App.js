@@ -9,54 +9,67 @@ import Welcome from './navigation/intro/welcome/Welcome';
 import DietReq from './navigation/intro/dietReq/DietReq';
 import MainCamera from './navigation/main/mainCamera/MainCamera';
 import MyIngredients from './navigation/main/myIngredients/MyIngredients';
+import MyGarden from './navigation/main/myGarden/MyGarden';
+import MealGenerator from './navigation/main/mealGenerator/MealGenerator';
 
 const Stack = createNativeStackNavigator();
+
+export const IntroContext = React.createContext({
+  isIntro: false,
+  toggleIntro: () => {
+    this.isIntro = !this.isIntro;
+  },
+});
 
 const App = () => {
   const [isIntro, setIsIntro] = useState(true);
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     // Do something when the screen is focused
-  //     isIntro.setIsIntro(false);
-      
-  //     return () => {
-  //       // Do something when the screen is unfocused
-  //       // Useful for cleanup functions
-  //     };
-  //   }, [])
-  // );
+  introComplete = () => {
+    setTimeout(function(){
+      setIsIntro(false);  
+    }, 1000);
+  }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{
-        headerTitle: '',
-        headerStyle: {
-          backgroundColor: '#32910F',
-        },
-        headerShadowVisible: false,
-        shadowColor: 'transparent',
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}>
+    <IntroContext.Provider value={isIntro}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: '#32910F',
+          },
+          headerShadowVisible: false,
+          shadowColor: 'transparent',
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}>
 
-        {isIntro ? <Stack.Screen name="Welcome" component={Welcome} />
-        : <Stack.Screen name="MainCamera" component={MainCamera} arrived={isIntro.setIsIntro(false)} />}
+          {isIntro ? <Stack.Screen name="Welcome" component={Welcome} />
+          : <Stack.Screen options={{headerShown: false}} name="MainCamera"> 
+            {props => <MainCamera {...props} arrived={this.introComplete} />}
+          </Stack.Screen>}
 
-        <Stack.Screen name="DietReq" component={DietReq} />
+          <Stack.Screen name="DietReq" component={DietReq} />
 
-        <Stack.Screen options={{
-          headerShown: isIntro ? true : false,
-        }} name="MyIngredients" component={MyIngredients} isIntro={isIntro} />
+          <Stack.Screen options={{headerShown: isIntro ? true : false}} 
+          name="MyIngredients" component={MyIngredients} />
 
-        <Stack.Screen options={{
-          headerShown: false,
-        }} name="MainCamera" component={MainCamera} />
+          {isIntro && <Stack.Screen options={{headerShown: false}} name="MainCamera"> 
+            {props => <MainCamera {...props} arrived={this.introComplete} />}
+          </Stack.Screen>}
 
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen options={{headerShown: false}} 
+          name="MealGenerator" component={MealGenerator} />
+
+          <Stack.Screen options={{headerShown: false}} 
+          name="MyGarden" component={MyGarden} />
+
+        </Stack.Navigator>
+      </NavigationContainer>
+    </IntroContext.Provider>
+
   );
   
 };
@@ -69,6 +82,7 @@ const styles = StyleSheet.create({
 }); 
 
 export default App;
+export const useIntroContext = () => React.useContext(IntroContext);
 
 
 
@@ -91,46 +105,6 @@ export default App;
 // Links
 // Splash Screen: https://blog.logrocket.com/building-a-splash-screen-in-react-native/
 
-
-
-
-
-// * Tutorial Page
-
-// import Header from './components/Header';
-// import ListItem from './components/ListItem';
-// import AddItem from './components/AddItem';
-
-// const [items, setItems] = useState([
-//   {id: uuid(), text: 'Stacy' },
-//   {id: uuid(), text: 'Janice' },
-//   {id: uuid(), text: 'Lottie' },
-//   {id: uuid(), text: 'Lizzie' },
-// ]);
-
-// const deleteItem = (id) => {
-//   setItems(prevItems => {
-//     return prevItems.filter(item => item.id != id);
-//   }); 
-// }
-
-// const addItem = (text) => {
-//   if(!text) {
-//     Alert.alert('Error', 'Please enter an item', { text: 'Ok'});
-//   } else {
-//     setItems(prevItems => {
-//       return [{id: uuid(), text}, ...prevItems];
-//     }); 
-//   }    
-// }
-// <View style={styles.container}>
-//   <Header/>
-//   <AddItem addItem={addItem} />
-//   <FlatList data={items} renderItem={({item}) => 
-//     <ListItem item={item} deleteItem={deleteItem}/>}
-//   />
-// </View>
-    
 
 // * Starter Page
 

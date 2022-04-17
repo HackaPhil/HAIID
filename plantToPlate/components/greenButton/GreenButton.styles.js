@@ -13,4 +13,9 @@ export default StyleSheet.create({
       fontWeight: 'bold',
       textAlign: 'center',
     },
+    smallBtn: {
+        fontSize: 20,
+        paddingHorizontal: 15,
+        paddingVertical: 8,
+    }
 }); 

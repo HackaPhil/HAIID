@@ -4,6 +4,7 @@ export default StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
+        bottom: 30,
     },
     footer: {
       position: 'absolute',

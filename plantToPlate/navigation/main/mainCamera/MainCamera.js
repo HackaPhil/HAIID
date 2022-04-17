@@ -7,7 +7,8 @@ import GreenButtonRound from '../../../components/greenButtonRound/GreenButtonRo
 import styles from './MainCamera.styles';
 import { faFileImage, faBell, faBolt } from '@fortawesome/free-solid-svg-icons';
 import { LogBox } from "react-native";
-
+import { useIntroContext } from '../../../App';
+import Tutorial from '../../../components/tutorial/Tutorial';
 LogBox.ignoreLogs([
 "ViewPropTypes will be removed",
 ])
@@ -26,7 +27,9 @@ const PendingView = () => (
 
 const MainCamera = ({navigation, arrived}) => {
 
+    const intro = useIntroContext();
     const [flash, setFlash] = useState(false);
+    const [tutorial, setTutorial] = useState(intro ? true : false);
 
     takePicture = async function(camera) {
         const options = { quality: 0.5, base64: true, 
@@ -44,15 +47,27 @@ const MainCamera = ({navigation, arrived}) => {
         console.log(result);
     };
 
+    startTutorial = () => {
+        setTutorial(true);
+    }
+
+    endTutorial = () => {
+        setTutorial(false);
+    }
+
     return (
+      arrived(),
       <View style={styles.container}>
-          <View style={styles.header}>
+
+        {tutorial && <Tutorial end={this.endTutorial}></Tutorial>}
+
+        <View style={styles.header}>
             <GreenButtonRound iconName={faFileImage} style={styles.btn} iconSize={30} onPress={() => this.getImageFromLibrary()}></GreenButtonRound>
             <View style={{opacity: flash ? 1 : 0.2}}>
                 <GreenButtonRound iconName={faBolt} style={{opacity: flash ? 1 : 0.2}} iconSize={30} onPress={() => setFlash(!flash)}></GreenButtonRound>
             </View>
             <GreenButtonRound iconName={faBell} iconSize={30}></GreenButtonRound>
-          </View>
+        </View>
 
         <RNCamera
           style={styles.preview}
@@ -75,11 +90,19 @@ const MainCamera = ({navigation, arrived}) => {
           {({ camera, status }) => {
             if (status !== 'READY') return <PendingView />;
             return (
-                <Footer isCamera={true} navigation={navigation} takePic={() => this.takePicture(camera)}></Footer>
+                <View style={styles.cameraElements}>
+                    <View style={styles.scanFrame}></View>
+                    <View style={styles.footer}>
+                        <Footer isArrow={false} isOnCamera={true} navigation={navigation} takePic={() => this.takePicture(camera)}></Footer>
+                    </View>
+                </View>
             );
           }}
-
         </RNCamera>
+
+        {/* <View style={styles.footer}>
+            <Footer isArrow={false} isOnCamera={true} navigation={navigation} takePic={() => this.takePicture(camera)}></Footer>
+        </View> */}
       </View>
     );
 };

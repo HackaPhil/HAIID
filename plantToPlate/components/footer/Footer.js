@@ -7,9 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBars, faCaretDown, faGear, faCamera, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 
-const Footer = ({isCamera, takePic, navigation}) => {
+const Footer = ({isArrow, takePic, pressArrow, navigation}) => {
   const menuSlide = useRef(new Animated.Value(0)).current;
-  const menuFade = useRef(new Animated.Value(1)).current;
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -17,7 +16,7 @@ const Footer = ({isCamera, takePic, navigation}) => {
     Animated.timing(
         menuSlide,
         {
-          toValue: -410,
+          toValue: -380,
           duration: 250,
           useNativeDriver: true,
         }
@@ -39,21 +38,21 @@ const Footer = ({isCamera, takePic, navigation}) => {
 
    leavePage = (pageName) => {
     Animated.timing(
-        menuFade,
+        menuSlide,
         {
           toValue: 0,
-          duration: 100,
+          duration: 70,
           useNativeDriver: true,
         }
     ).start();
+    setMenuOpen(false);
     setTimeout(function(){
         navigation.navigate(pageName);  
     }, 100);
    };
 
-
   return (
-    <Animated.View style={[styles.container, {transform: [{translateY: menuSlide}], opacity: menuFade}]}>
+    <Animated.View style={[styles.container, {transform: [{translateY: menuSlide}]}]}>
         <View style={styles.footer}>
             {!menuOpen && <View style={styles.btnBox}>
                 <TouchableOpacity onPress={this.openMenu} >
@@ -65,13 +64,13 @@ const Footer = ({isCamera, takePic, navigation}) => {
             </View>}
 
             <View style={styles.menu}>
-                <TouchableOpacity style={styles.menuBtn}>
+                <TouchableOpacity style={styles.menuBtn} onPress={() => this.leavePage('MyGarden')}>
                     <Text style={styles.menuText}>My Garden</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.menuBtn} onPress={() => this.leavePage('MyIngredients')}>
                     <Text style={styles.menuText}>My Ingredients</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.menuBtn}>
+                <TouchableOpacity style={styles.menuBtn} onPress={() => this.leavePage('MealGenerator')}>
                     <Text style={styles.menuText}>Meal Generator</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.menuBtn}>
@@ -86,7 +85,7 @@ const Footer = ({isCamera, takePic, navigation}) => {
 
         <View style={styles.cameraBtn}>
             {menuOpen ? <GreenButtonRound iconName={faCaretDown} onPress={this.closeMenu}></GreenButtonRound>
-            : <GreenButtonRound iconName={isCamera ? faCamera : faCaretUp} iconSize={50} onPress={takePic}></GreenButtonRound>}
+            : <GreenButtonRound iconName={isArrow ? faCaretUp : faCamera} iconSize={50} onPress={isArrow ? pressArrow : takePic}></GreenButtonRound>}
         </View>
     </Animated.View>
   );
