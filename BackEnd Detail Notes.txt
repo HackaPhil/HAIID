@@ -1,0 +1,53 @@
+DOWNLOADING THE PROJECT AND SETTING UP GITHUB
+You need to download the entire github repo, I then recommend installing github desktop and accessing that folder and recongising it as the HAIID repo. That way yours and our changes can be automatically recognised and pushed and pulled.
+
+SETTING UP AND RUNNING THE BACKEND
+So the backend itself is the app folder on the github.
+To run the backend server, just run main.py
+Before you do this, you need to set that IP address to your IP address. 
+At the bottom of main.py will be "app.run(host='192.168.0.11', port=5000, debug=True)"
+Find your own ipv4 local IP address with ipconfig
+and then replace '192.168.0.11' with your ip address that you've found
+you can now run main.py - it may take a couple minutes!
+It should be running on your local machine at port 5000. This can be accessed from across your LAN (i.e. from your phone).
+
+CHANGING THE FRONTEND
+You can follow what I have done in frontend/screens/TabOneScreen.tsx (this is a dummy app)
+Install axios (npm install)
+import axios from 'axios'
+you can then use axios.get and axios.post functions
+.then .catch .finally are used within this
+Documentation  https://www.npmjs.com/package/axios
+Tutorial https://aboutreact.com/react-native-axios/
+
+for example:
+  const getDataUsingSimpleGetCall = () => {
+    axios
+      .get('http://192.168.0.11:5000/some_thing')  //CHANGE THE IP ADDRESS AS NEEDED!!! (according to main.py)
+      .then(function (response) {
+        // handle success
+        alert(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        // handle error
+        alert(error.message);
+      })
+      .finally(function () {
+        // always executed
+        alert('Finally called');
+      });
+  }
+/some_thing just gives a dummy response from the backend
+
+you can then store these in variables to work with in the js.
+
+THE BACK-END CALLS:
+get_progress
+JSON: {"value":float_value_of_progress,
+"species":species_name}
+
+get_meal_plan
+
+some_thing
+JSON: {"message":dummy_message}
+
