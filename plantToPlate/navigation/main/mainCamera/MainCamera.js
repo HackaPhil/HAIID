@@ -99,10 +99,7 @@ const MainCamera = ({navigation, arrived}) => {
             );
           }}
         </RNCamera>
-
-        {/* <View style={styles.footer}>
-            <Footer isArrow={false} isOnCamera={true} navigation={navigation} takePic={() => this.takePicture(camera)}></Footer>
-        </View> */}
+        
       </View>
     );
 };

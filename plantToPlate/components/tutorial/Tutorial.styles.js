@@ -43,10 +43,10 @@ export default StyleSheet.create({
     },
     popup2: {
         width: 275,
-        height: 210,
+        height: 280,
     },
     marker2: {
-        top: 320,
+        top: 355,
         left: 82,
     },
     popup3: {

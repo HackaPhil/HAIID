@@ -23,7 +23,7 @@ const MyIngredients = ({navigation}) => {
   const otherMeatItems = [];
   const meatData = {
     'Beef': '1.2',
-    'Chicken': '1.5'
+    'Chicken': '1.5',
   }
 
   const [addIngredient, setAddIngredient] = useState(false);

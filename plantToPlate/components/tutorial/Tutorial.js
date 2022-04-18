@@ -35,8 +35,8 @@ const Tutorial = ({end}) => {
                 <TouchableOpacity onPress={end}>
                     <FontAwesomeIcon style={styles.icon} icon={faXmark} size={20}></FontAwesomeIcon>
                 </TouchableOpacity>                
-                <Text style={styles.text}>Center your plant within this dotted frame, then tap the camera button
-                below - we'll do the rest!</Text>
+                <Text style={styles.text}>When taking a picture, center your plant within this dotted frame - ensure good lighting for the
+                best results. When you're ready, tap the camera button below, and we'll do the rest!</Text>
                 <GreenButton onPress={this.previousStep} propStyles={styles.btnPrev} text="Back" small={true}></GreenButton>
                 <GreenButton onPress={this.nextStep} propStyles={styles.btnNext} text="Next" small={true}></GreenButton>
                 <View style={[styles.marker, styles.marker2]}></View>
