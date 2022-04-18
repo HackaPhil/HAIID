@@ -8,6 +8,7 @@ import styles from './MainCamera.styles';
 import { faFileImage, faBell, faBolt } from '@fortawesome/free-solid-svg-icons';
 import { LogBox } from "react-native";
 import { useIntroContext } from '../../../App';
+import axios from 'axios';
 import Tutorial from '../../../components/tutorial/Tutorial';
 LogBox.ignoreLogs([
 "ViewPropTypes will be removed",
@@ -32,19 +33,18 @@ const MainCamera = ({navigation, arrived}) => {
     const [tutorial, setTutorial] = useState(intro ? true : false);
 
     takePicture = async function(camera) {
-        const options = { quality: 0.5, base64: true, 
-            flashMode: flash ? RNCamera.Constants.FlashMode.on : RNCamera.Constants.FlashMode.off };
+        const options = { quality: 0.5, base64: true };
         const data = await camera.takePictureAsync(options);
 
-        // *** Image data
         console.log(data.uri);
+        postImage(data.uri);
     };
 
     getImageFromLibrary = async function(options?) {
         const result = await launchImageLibrary(options);
 
-        // *** Image data
-        console.log(result);
+        console.log(result.assets);
+        postImage(result.assets);
     };
 
     startTutorial = () => {
@@ -54,6 +54,46 @@ const MainCamera = ({navigation, arrived}) => {
     endTutorial = () => {
         setTutorial(false);
     }
+
+    const postImage = (imageURI) => {
+
+      const form = new FormData();
+  
+      form.append('image', imageURI);
+
+      const form2 = {image: imageURI}
+
+      const config = {
+        method: 'post',
+        url: 'http://172.16.3.103:5000/get_progress',
+        // headers: {
+        //     "Content-Type": "multipart/form-data",
+        // },
+        data: form,
+        // data: {image: imageURI}
+      };
+  
+      // axios(config)
+      axios
+        .post('http://172.16.3.103:5000/get_progress', form, 
+          {
+            withCredentials: true,
+            // headers: {'Content-Type': 'multipart/form-data'},
+          },
+        )
+        .then(function (response) {
+          // handle success
+          alert(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          // handle error
+          alert(error.message);
+        })
+        .finally(function () {
+          // always executed
+          console.log(form)
+        });
+    };
 
     return (
       arrived(),
@@ -72,7 +112,7 @@ const MainCamera = ({navigation, arrived}) => {
         <RNCamera
           style={styles.preview}
           type={RNCamera.Constants.Type.back}
-          flashMode={RNCamera.Constants.FlashMode.on}
+          flashMode = {flash ? RNCamera.Constants.FlashMode.on : RNCamera.Constants.FlashMode.off }
           captureAudio={false}
           androidCameraPermissionOptions={{
             title: 'Permission to use camera',
@@ -99,7 +139,7 @@ const MainCamera = ({navigation, arrived}) => {
             );
           }}
         </RNCamera>
-        
+
       </View>
     );
 };

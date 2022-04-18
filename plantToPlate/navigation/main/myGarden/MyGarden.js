@@ -6,7 +6,7 @@ import Header from '../../../components/header/Header.js';
 import Footer from '../../../components/footer/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+
 
 const MyGarden = ({navigation}) => {
   const dropdownSlide = useRef(new Animated.Value(-750)).current;
@@ -21,23 +21,6 @@ const MyGarden = ({navigation}) => {
     'Chicken Stir Fry': '20%',
   }
   const recipeItems = [];
-
-  const getDataUsingSimpleGetCall = () => {
-    axios
-      .get('http://172.16.3.103:5000/some_thing')
-      .then(function (response) {
-        // handle success
-        alert(JSON.stringify(response.data));
-      })
-      .catch(function (error) {
-        // handle error
-        alert(error.message);
-      })
-      .finally(function () {
-        // always executed
-        console.log('API call attempt')
-      });
-  };
 
   plantDropdownFall = () => {
     Animated.timing(
@@ -116,7 +99,6 @@ const MyGarden = ({navigation}) => {
       <Header title="My Garden" isIntro={false} notifications={true}></Header>
 
       <Animated.ScrollView style={[styles.scrollView, {zIndex: plantInfo ? -3 : 0}, {opacity: screen1Fade}]}>
-        <GreenButton text="API call" onPress={() => getDataUsingSimpleGetCall()}></GreenButton>
         <View style={styles.row}>
           <Text style={styles.title}>Recipe</Text>
           <Text style={styles.title}>Status</Text>

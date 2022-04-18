@@ -49,4 +49,12 @@ export default StyleSheet.create({
       borderRadius: 50,
       backgroundColor: 'white',
     },
+    image: {
+      width: 70,
+      height: 70,
+      borderWidth: 3,
+      borderColor: '#32910F',
+      borderRadius: 50,
+      marginRight: 10,
+    },
 });
