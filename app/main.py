@@ -111,7 +111,7 @@ def recipe_search(query):
 def get_progress():
     try: new_file = request.files['image'].read()
     except Exception as e:
-        response = jsonify({'value':"N/A", 'message':"ERR: image not part of form", 'error':str(e)})
+        response = jsonify({'value':"N/A", 'message':"ERR: image not part of form", 'error':str(e), 'recieved':str(request), 'files/form':str(request.files)})
         response.headers.add('Access-Control-Allow-Origin', '*')
         return response
     npimg = np.fromstring(new_file, np.uint8)
