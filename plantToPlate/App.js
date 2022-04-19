@@ -14,15 +14,12 @@ import MealGenerator from './navigation/main/mealGenerator/MealGenerator';
 
 const Stack = createNativeStackNavigator();
 
-export const IntroContext = React.createContext({
-  isIntro: false,
-  toggleIntro: () => {
-    this.isIntro = !this.isIntro;
-  },
-});
+export const IntroContext = React.createContext({});
+export const PlantContext = React.createContext({});
 
 const App = () => {
   const [isIntro, setIsIntro] = useState(true);
+  const [plantData, setPlantData] = useState([{'species': '', 'value': 0}]);
 
   introComplete = () => {
     setTimeout(function(){
@@ -30,44 +27,55 @@ const App = () => {
     }, 1000);
   }
 
+  addPlant = (plant) => {
+    if (plantData[0].species=='') {
+      setPlantData([plant]);
+    } else {
+      var newData = [plant].concat(plantData)
+      setPlantData(newData);
+    }
+  }
+
   return (
     <IntroContext.Provider value={isIntro}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{
-          headerTitle: '',
-          headerStyle: {
-            backgroundColor: '#32910F',
-          },
-          headerShadowVisible: false,
-          shadowColor: 'transparent',
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}>
+      <PlantContext.Provider value={plantData}>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: '#32910F',
+            },
+            headerShadowVisible: false,
+            shadowColor: 'transparent',
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}>
 
-          {isIntro ? <Stack.Screen name="Welcome" component={Welcome} />
-          : <Stack.Screen options={{headerShown: false}} name="MainCamera"> 
-            {props => <MainCamera {...props} arrived={this.introComplete} />}
-          </Stack.Screen>}
+            {isIntro ? <Stack.Screen name="Welcome" component={Welcome} />
+            : <Stack.Screen options={{headerShown: false}} name="MainCamera"> 
+              {props => <MainCamera {...props} arrived={this.introComplete} />}
+            </Stack.Screen>}
 
-          <Stack.Screen name="DietReq" component={DietReq} />
+            <Stack.Screen name="DietReq" component={DietReq} />
 
-          <Stack.Screen options={{headerShown: isIntro ? true : false}} 
-          name="MyIngredients" component={MyIngredients} />
+            <Stack.Screen options={{headerShown: isIntro ? true : false}} 
+            name="MyIngredients" component={MyIngredients} />
 
-          {isIntro && <Stack.Screen options={{headerShown: false}} name="MainCamera"> 
-            {props => <MainCamera {...props} arrived={this.introComplete} />}
-          </Stack.Screen>}
+            {isIntro && <Stack.Screen options={{headerShown: false}} name="MainCamera"> 
+              {props => <MainCamera {...props} arrived={this.introComplete} addPlant={this.addPlant} />}
+            </Stack.Screen>}
 
-          <Stack.Screen options={{headerShown: false}} 
-          name="MealGenerator" component={MealGenerator} />
+            <Stack.Screen options={{headerShown: false}} 
+            name="MealGenerator" component={MealGenerator} />
 
-          <Stack.Screen options={{headerShown: false}} 
-          name="MyGarden" component={MyGarden} />
+            <Stack.Screen options={{headerShown: false}} 
+            name="MyGarden" component={MyGarden} />
 
-        </Stack.Navigator>
-      </NavigationContainer>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PlantContext.Provider>
     </IntroContext.Provider>
 
   );
@@ -83,7 +91,7 @@ const styles = StyleSheet.create({
 
 export default App;
 export const useIntroContext = () => React.useContext(IntroContext);
-
+export const usePlantContext = () => React.useContext(PlantContext);
 
 
 

@@ -39,6 +39,21 @@ export default StyleSheet.create({
         padding: 20,
         marginTop: 30,
     },
+    added: {
+        position: 'absolute', 
+        backgroundColor: '#40B913',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 50,
+    },
+    addedText: {
+        fontSize: 22,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        fontWeight: 'bold',
+        color: '#32910F',
+    },
     header: {
         flex: 1,
         flexDirection: 'row',

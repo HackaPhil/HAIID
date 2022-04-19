@@ -86,7 +86,7 @@ export default StyleSheet.create({
         fontWeight: 'normal',
     },
     recipeStep: {
-        fontSize: 20,
+        fontSize: 18,
         marginTop: 15,
     },
 }); 

@@ -5,24 +5,25 @@ import GreenButton from '../../../components/greenButton/GreenButton.js';
 import Header from '../../../components/header/Header.js';
 import Footer from '../../../components/footer/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faFileLines } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faCaretLeft, faCaretRight, faPlus, faTrash, faCamera } from '@fortawesome/free-solid-svg-icons';
+import { usePlantContext } from '../../../App';
+import GrowthTimes from '../../../data/GrowthTimes.js';
 
 
 const MyGarden = ({navigation}) => {
+  const plantData = usePlantContext();
+
   const dropdownSlide = useRef(new Animated.Value(-750)).current;
   const screen1Fade = useRef(new Animated.Value(1)).current;
   const screen2Fade = useRef(new Animated.Value(0)).current;
   const [plantInfo, setPlantInfo] = useState(false);
+  const [plantDetails, setPlantDetails] = useState();
   const [showAll, setShowAll] = useState(false);
-  
-  const recipeData = {
-    'Beef Pesto Pasta': '33%',
-    'Lasagne': '25%',
-    'Chicken Stir Fry': '20%',
-  }
-  const recipeItems = [];
 
-  plantDropdownFall = () => {
+
+  const plantList = [];
+
+  plantDropdownFall = (data) => {
     Animated.timing(
         dropdownSlide,
         {
@@ -48,6 +49,52 @@ const MyGarden = ({navigation}) => {
           useNativeDriver: true,
         }
     ).start();
+    var growTime = GrowthTimes[data["species"].toLowerCase()];
+    var estimate = growTime-(data["value"]*growTime).toFixed(0);
+    setPlantDetails(
+      [<View key={data["species"]}>
+        <View style={styles.row}>
+          <Text style={styles.title}>{species}</Text>
+          <View style={styles.section}>
+            <Text style={styles.title}>1/1</Text>
+            <TouchableOpacity style={styles.iconBtn} onPress={() => add()}>
+                <FontAwesomeIcon style={{color: 'white'}} icon={faPlus} size={18}></FontAwesomeIcon>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.row}>
+          <FontAwesomeIcon style={[styles.icon, styles.iconDisabled]} icon={faCaretLeft} size={20}></FontAwesomeIcon>
+          <View style={styles.section}>
+            <TouchableOpacity style={[styles.iconBtn, styles.iconBtn3]} onPress={() => add()}>
+                <FontAwesomeIcon style={{color: 'white'}} icon={faTrash} size={20}></FontAwesomeIcon>
+            </TouchableOpacity>
+            {/* <Image source={require('/Users/philip/HAIID/plantToPlate/resources/images/iu-7.jpeg')} style={styles.image}></Image> */}
+            <Image source={{uri: data["image"]}} style={[styles.image, {marginRight: 0}]}></Image>
+            <TouchableOpacity style={[styles.iconBtn, styles.iconBtn2]} onPress={() => add()}>
+                <FontAwesomeIcon style={{color: 'white'}} icon={faCamera} size={20}></FontAwesomeIcon>
+            </TouchableOpacity>
+          </View>
+          <FontAwesomeIcon style={[styles.icon, styles.iconDisabled]} icon={faCaretRight} size={20}></FontAwesomeIcon>
+        </View>
+        <View style={[styles.progressBarOuter]}>
+          <View style={[styles.progressBarInner,{width: 300*data["value"]}]}>
+            <View style={[styles.progressBarMarker, {left: 300*data["value"]}]}></View>
+          </View>
+        </View>
+        <View style={styles.row}>
+          <Image style={styles.customIcon}></Image>
+          <Image style={styles.customIcon}></Image>
+        </View>
+        <Text style={styles.estimate}>Estimated time before harvest: {estimate} days</Text>
+        <View style={[styles.divider, {borderColor: '#32910F'}]}></View>
+        <Text style={[styles.title, {marginTop: 20}]}>About</Text>
+        <Text style={styles.aboutInfo}>The tomato (Solanum lycopersicum) is a fruit from the nightshade family native to South America.
+        Despite botanically being a fruit, it’s generally eaten and prepared like a vegetable.</Text>   
+        <Text style={styles.aboutInfo}>Tomatoes are the major dietary source of the antioxidant lycopene, which has been linked to many health benefits, including reduced risk of heart disease and cancer.
+        They are also a great source of vitamin C, potassium, folate, and vitamin K.
+        Usually red when mature, tomatoes can also come in a variety of colors, including yellow,</Text> 
+      </View>]
+    );
     setPlantInfo(true);
   };
 
@@ -80,18 +127,42 @@ const MyGarden = ({navigation}) => {
     setPlantInfo(false);
   };
 
-  for (const i in recipeData) {
-    recipeItems.push(
-      <TouchableOpacity key={i} style={styles.row} onPress={() => plantDropdownFall()}>
-        <View style={styles.section}>
-          <FontAwesomeIcon style={styles.icon} icon={faFileLines} size={22}></FontAwesomeIcon>
-          <Text style={styles.mainText}>{i}</Text>
+  var count = 0
+  for (let i of plantData) {
+    if (i['species'] != '') {
+      var species = i["species"].charAt(0).toUpperCase() + i["species"].slice(1);
+      i["species"] = species;
+      plantList.push(
+        <View key={count}>
+          <TouchableOpacity style={styles.row} onPress={() => plantDropdownFall(i)}>
+            <View style={styles.section}>
+              {/* <Image source={require('/Users/philip/HAIID/plantToPlate/resources/images/iu-7.jpeg')} style={styles.image}></Image> */}
+              <Image source={{uri: i["image"]}} style={styles.image}></Image>
+              <Text style={styles.mainText}>{species}</Text>
+            </View>
+            <View>
+              <FontAwesomeIcon style={styles.icon} icon={faPencil} size={20}></FontAwesomeIcon>
+            </View>
+          </TouchableOpacity>
+          <View style={[styles.section, {justifyContent: 'center'}]}>
+            <FontAwesomeIcon style={[styles.icon, styles.iconDisabled]} icon={faCaretLeft} size={20}></FontAwesomeIcon>
+            <Text style={styles.mainText}>1/1</Text>
+            <FontAwesomeIcon style={[styles.icon, styles.iconDisabled]} icon={faCaretRight} size={20}></FontAwesomeIcon>
+          </View>
+          <View style={[styles.progressBarOuter]}>
+            <View style={[styles.progressBarInner,{width: 300*i["value"]}]}>
+              <View style={[styles.progressBarMarker, {left: 300*i["value"]}]}></View>
+            </View>
+          </View>
+          <View style={styles.row}>
+            <Image style={styles.customIcon}></Image>
+            <Image style={styles.customIcon}></Image>
+          </View>
+          <View style={styles.divider}></View>
         </View>
-        <View>
-          <Text style={styles.mainText}>{recipeData[i]}</Text>
-        </View>
-      </TouchableOpacity>
-    )
+      )
+    }
+    count+=1;
   }
 
   return (
@@ -99,33 +170,18 @@ const MyGarden = ({navigation}) => {
       <Header title="My Garden" isIntro={false} notifications={true}></Header>
 
       <Animated.ScrollView style={[styles.scrollView, {zIndex: plantInfo ? -3 : 0}, {opacity: screen1Fade}]}>
-        <View style={styles.row}>
-          <Text style={styles.title}>Recipe</Text>
-          <Text style={styles.title}>Status</Text>
-        </View>
-
-        {recipeItems}
+        {plantList.length > 0 ? plantList :
+          <View style={styles.empty}>
+            <Text style={styles.mainText}>Nothing here yet</Text>
+            <Text style={styles.mainText}>Take a picture to get started!</Text>
+          </View>
+        }
       </Animated.ScrollView>
 
       <Animated.View style={[styles.dropdown, {transform: [{translateY: dropdownSlide}]}]}>
+
           <Animated.ScrollView style={[styles.dropdownView, {opacity: screen2Fade}]}>
-            <View style={styles.section}>
-              <Image source={require('../../../resources/images/istockphoto-168419882-170667a.jpeg')} style={styles.image}></Image>
-              <Text style={[styles.title, {fontSize: 24}]}>Lasagne</Text>
-            </View>
-            <View style={{bottom: 20}}>
-              <Text style={[styles.title, {textAlign: 'right'}]}>25%</Text>
-              <Text style={[styles.title, {textAlign: 'right'}]}>1/4 Ingredients</Text>
-            </View>
-            <View>
-              <Text style={[styles.title, {textAlign: 'center'}]}>Beef - 500g</Text>
-              <Text style={[styles.title, styles.ingredient]}>Cheese - 500g</Text>
-              <Text style={[styles.title, styles.ingredient]}>Lasagne Noodles - 100g</Text>
-              <Text style={[styles.title, styles.ingredient]}>Tomato - 2</Text>
-            </View>  
-            <Text style={[styles.title, {marginTop: 20}]}>Recipe</Text>
-            <Text style={styles.recipeStep}>1. Preheat the oven to 200C/180C Fan/Gas 6</Text>   
-            <Text style={styles.recipeStep}>2. Heat the olive oil in a large frying pan over a medium heat. Add the mince to the hot oil with a good pinch of salt and pepper. Brown the mince for 5-6 minutes until coloured all over and beginning to crisp. Remove the mince from the pan and set aside.</Text>   
+            {plantDetails}
           </Animated.ScrollView>
       </Animated.View>
 
