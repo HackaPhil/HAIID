@@ -79,13 +79,13 @@ const DietReq = ({navigation, isIntro}) => {
   };
 
   return (
-    getDataUsingPostCall(),
+    // getDataUsingPostCall(),
     <SafeAreaView style={styles.background}>
       <Header title="Dietary Requirements" isIntro={intro} notifications={intro ? false : true}></Header>
 
       <ScrollView style={styles.scrollView}>
-        <GreenButton text="API call" onPress={() => getDataUsingPostCall()}></GreenButton>
-        <Image source={require('../../../resources/images/iu-7.jpeg')} style={styles.image}></Image>
+        {/* <GreenButton text="API call" onPress={() => getDataUsingPostCall()}></GreenButton>
+        <Image source={require('../../../resources/images/iu-7.jpeg')} style={styles.image}></Image> */}
         <Text style={styles.title}>Allergies</Text>
         <Text style={styles.question}>Are you allergic to any of the following?</Text>
         {allergies.map((allergy,index) =>
