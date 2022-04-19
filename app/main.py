@@ -109,7 +109,11 @@ def recipe_search(query):
 
 @app.route('/get_progress', methods = ['POST'])
 def get_progress():
-    new_file = request.files['image'].read()
+    try: new_file = request.files['image'].read()
+    except Exception as e:
+        response = jsonify({'value':"N/A", 'message':"ERR: image not part of form", 'error':str(e), 'recieved':str(request), 'files/form':str(request.files)})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
     npimg = np.fromstring(new_file, np.uint8)
     image = np.array([resize(imdecode(npimg, IMREAD_COLOR)/255, (224, 224), interpolation = INTER_AREA)])
     
