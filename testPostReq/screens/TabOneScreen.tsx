@@ -3,19 +3,28 @@ import axios from 'axios';
 import { View, StyleSheet, SafeAreaView, Text, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { RootTabScreenProps } from '../types';
+// @ts-ignore
+import image01 from '../assets/images/iu-7.jpeg'
 
 var formData = new FormData();
 //var imageFile = require('images/iu-7.jpeg');
 var imageFile = require('../assets/images/iu-7.jpeg');
 
+const images = {
+  image1: require('../assets/images/iu-7.jpeg')
+};
+
+
+
 formData.append('image',
       {
-         uri:imageFile,
+         uri: image01,
          name:'iu-7.jpeg',
          type:'image/jpeg'
       }
 );
 
+formData.append('test',  image01);
 
 
 export function App() {
@@ -36,7 +45,9 @@ export function App() {
         })
         .finally(function () {
             // always executed
-            console.log(formData)
+            console.log(formData);
+            console.log(formData.get('test'));
+            console.log(formData.get('image'));
         })
     };
   return (
