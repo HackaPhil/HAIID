@@ -5,6 +5,9 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { RootTabScreenProps } from '../types';
 // @ts-ignore
 import image01 from '../assets/images/iu-7.jpeg'
+// @ts-ignore
+import image02 from '../assets/images/carrot.jpg'
+
 
 var formData = new FormData();
 //var imageFile = require('images/iu-7.jpeg');
@@ -18,13 +21,13 @@ const images = {
 
 formData.append('image',
       {
-         uri: image01,
-         name:'iu-7.jpeg',
-         type:'image/jpeg'
+         uri: "file:://../assets/images/carrot.jpg",
+         name:'carrot.jpg',
+         type:'image/jpg'
       }
 );
 
-formData.append('test',  image01);
+formData.append('test',  image02);
 
 
 export function App() {
