@@ -3,10 +3,13 @@ from tensorflow import keras
 from tensorflow.keras.models import load_model
 import spoonacular
 #import cv2
-from cv2 import resize, imdecode, IMREAD_COLOR, INTER_AREA
+from cv2 import resize, imread, imwrite, imshow, imdecode, IMREAD_COLOR, INTER_AREA
 #import opencv-python-headless as cv2
 import numpy as np
 import os
+import json
+import base64
+import time
 from werkzeug.utils import secure_filename
 
 print("connecting spoonacular API...")
@@ -109,13 +112,30 @@ def recipe_search(query):
 
 @app.route('/get_progress', methods = ['POST'])
 def get_progress():
-    try: new_file = request.files['image'].read()
-    except Exception as e:
-        response = jsonify({'value':"N/A", 'message':"ERR: image not part of form", 'error':str(e), 'recieved':str(request), 'files/form':str(request.files)})
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        return response
-    npimg = np.fromstring(new_file, np.uint8)
-    image = np.array([resize(imdecode(npimg, IMREAD_COLOR)/255, (224, 224), interpolation = INTER_AREA)])
+
+    f = json.loads(request.data.decode('utf-8'))
+
+    if 'image' in f:
+        fstr = str(f['image'])
+        dest = open(fstr, 'rb')
+        new_file = dest.read()
+    else:
+        fstr = str(f['base64'])
+        new_file = base64.b64decode(fstr)
+    
+    # image = open('image.jpg', 'wb+')
+    # image.write(new_file)
+        
+    # cvimage = imread(r'image.jpg')
+    # cropped_file = cvimage[290:788, 0:498]
+    # imwrite("image1.jpg", cropped_file)
+    
+    npimg = np.frombuffer(new_file, np.uint8)
+
+    # imwrite("image2.jpg", resize((imdecode(npimg, IMREAD_COLOR)[290:788, 0:498]), (224, 224), interpolation = INTER_AREA))
+
+    image = np.array([resize((imdecode(npimg, IMREAD_COLOR)[290:788, 0:498]/255), (224, 224), interpolation = INTER_AREA)])
+   
     
     imageClass = np.argmax(classifier.predict(image)[0])
     model = modelArray[imageClass]
@@ -208,4 +228,4 @@ def anything():
 
 #DEBUG MODE!!
 if __name__ == '__main__':
-    app.run(host='192.168.0.11', port=5000, debug=True)
+    app.run(host='172.16.3.103', port=5000, debug=True)

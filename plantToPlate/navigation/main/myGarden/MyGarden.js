@@ -54,23 +54,26 @@ const MyGarden = ({navigation}) => {
     setPlantDetails(
       [<View key={data["species"]}>
         <View style={styles.row}>
-          <Text style={styles.title}>{species}</Text>
-          <View style={styles.section}>
+          <Text style={styles.title}>{data["species"]}</Text>
+          <View style={[styles.section, {marginTop: 10}]}>
             <Text style={styles.title}>1/1</Text>
-            <TouchableOpacity style={styles.iconBtn} onPress={() => add()}>
+            <TouchableOpacity style={styles.iconBtn}>
                 <FontAwesomeIcon style={{color: 'white'}} icon={faPlus} size={18}></FontAwesomeIcon>
             </TouchableOpacity>
           </View>
         </View>
+        <View style={styles.section}>
+          <Text style={styles.title}>Stage: </Text><Text style={styles.bigText}>{data["stage"]}</Text>
+        </View>
         <View style={styles.row}>
           <FontAwesomeIcon style={[styles.icon, styles.iconDisabled]} icon={faCaretLeft} size={20}></FontAwesomeIcon>
           <View style={styles.section}>
-            <TouchableOpacity style={[styles.iconBtn, styles.iconBtn3]} onPress={() => add()}>
+            <TouchableOpacity style={[styles.iconBtn, styles.iconBtn3]}>
                 <FontAwesomeIcon style={{color: 'white'}} icon={faTrash} size={20}></FontAwesomeIcon>
             </TouchableOpacity>
-            {/* <Image source={require('/Users/philip/HAIID/plantToPlate/resources/images/iu-7.jpeg')} style={styles.image}></Image> */}
+            {/* <Image source={require('/Users/philip/HAIID/plantToPlate/resources/images/iu-7.jpeg')} style={[styles.image, {marginRight: 0}]}></Image> */}
             <Image source={{uri: data["image"]}} style={[styles.image, {marginRight: 0}]}></Image>
-            <TouchableOpacity style={[styles.iconBtn, styles.iconBtn2]} onPress={() => add()}>
+            <TouchableOpacity style={[styles.iconBtn, styles.iconBtn2]}>
                 <FontAwesomeIcon style={{color: 'white'}} icon={faCamera} size={20}></FontAwesomeIcon>
             </TouchableOpacity>
           </View>
@@ -88,7 +91,7 @@ const MyGarden = ({navigation}) => {
         <Text style={styles.estimate}>Estimated time before harvest: {estimate} days</Text>
         <View style={[styles.divider, {borderColor: '#32910F'}]}></View>
         <Text style={[styles.title, {marginTop: 20}]}>About</Text>
-        <Text style={styles.aboutInfo}>The tomato (Solanum lycopersicum) is a fruit from the nightshade family native to South America.
+        <Text style={styles.aboutInfo}>The {data["species"]} (Solanum lycopersicum) is a fruit from the nightshade family native to South America.
         Despite botanically being a fruit, it’s generally eaten and prepared like a vegetable.</Text>   
         <Text style={styles.aboutInfo}>Tomatoes are the major dietary source of the antioxidant lycopene, which has been linked to many health benefits, including reduced risk of heart disease and cancer.
         They are also a great source of vitamin C, potassium, folate, and vitamin K.

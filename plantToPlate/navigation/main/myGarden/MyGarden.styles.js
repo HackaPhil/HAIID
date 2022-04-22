@@ -23,6 +23,10 @@ export default StyleSheet.create({
       fontWeight: 'bold',
     //   marginTop: 10,
     },
+    bigText: {
+        fontSize: 22,
+        fontWeight: 'bold',
+    },
     mainText: {
       fontSize: 20,
     },

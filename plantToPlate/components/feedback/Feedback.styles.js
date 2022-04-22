@@ -37,7 +37,8 @@ export default StyleSheet.create({
         marginBottom: 8,
     },
     bigText: {
-        fontSize: 20,
+        marginTop: 5,
+        fontSize: 22,
         fontWeight: 'bold',
     },
     popup: {
@@ -48,12 +49,16 @@ export default StyleSheet.create({
     },
     popup1: {
         width: 380,
-        height: 350,
+        height: 360,
     },
     popup2: {
         width: 380,
         height: 550,
         bottom: 20,
+    },
+    popup3: {
+        width: 300,
+        height: 210,
     },
     text: {
         textAlign: 'center',

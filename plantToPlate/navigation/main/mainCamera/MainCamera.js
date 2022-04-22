@@ -1,19 +1,20 @@
 import React, {useState, useRef} from 'react';
-import { Animated, View, Text, TouchableOpacity } from 'react-native';
+import { Animated, View, Text, TouchableOpacity, AsyncStorageStatic } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { launchImageLibrary} from 'react-native-image-picker';
 import Footer from '../../../components/footer/Footer';
 import GreenButtonRound from '../../../components/greenButtonRound/GreenButtonRound';
 import styles from './MainCamera.styles';
-import { faFileImage, faBell, faBolt } from '@fortawesome/free-solid-svg-icons';
+import { faFileImage, faBell, faBolt, faVihara } from '@fortawesome/free-solid-svg-icons';
 import { LogBox } from "react-native";
 import { useIntroContext } from '../../../App';
 import axios from 'axios';
 import Tutorial from '../../../components/tutorial/Tutorial';
 import Feedback from '../../../components/feedback/Feedback';
-import { readFile, readDir, read, readdir } from 'react-native-fs';
+import { readFile, readDir, read, readdir, moveFile, copyFile, writeFile } from 'react-native-fs';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { AsyncStorage } from '@react-native-async-storage/async-storage';
 
 LogBox.ignoreLogs([
 "ViewPropTypes will be removed",
@@ -37,27 +38,32 @@ const MainCamera = ({navigation, arrived, addPlant}) => {
     const [flash, setFlash] = useState(false);
     const [tutorial, setTutorial] = useState(intro ? true : false);
     const [feedback, setFeedback] = useState(false);
-    const [scanResult, setScanResult] = useState({"value": 0.774433424, "species": "tomato", 'image':'/Users/philip/HAIID/plantToPlate/resources/images/iu-7.jpeg'});
+    // const [scanResult, setScanResult] = useState({"value": 0.774433424, "species": "tomato", 
+    // "stage": "Mature", 'image':'/Users/philip/HAIID/plantToPlate/resources/images/iu-7.jpeg'});
+    const [scanResult, setScanResult] = useState({"value": 0, "species": 'none', "stage": 'none', 'image':'none'});
     const tickFade = useRef(new Animated.Value(0)).current;
 
     takePicture = async function(camera) {
-        const options = { quality: 0.5, base64: true };
+        const options = {quality: 0.5, base64: true, width: 500};
         const data = await camera.takePictureAsync(options);
+        
+        if (data.uri.slice(8,11)=='var') {
+          postImage(data.uri.slice(7), data.base64); 
+        } else {
+          postImage(data.uri.slice(7)); 
+        }
 
-        console.log(data.uri);
-        // postImage(data.uri);  
-
-        // for dummy
+        setScanResult({"value": 0, "species": 'none', "stage": 'none', 'image':'none'});
         setFeedback(true)
     };
 
-    getImageFromLibrary = async function(options?) {
-        const result = await launchImageLibrary(options);
-
-        console.log(result.assets);
-        // postImage(result.assets);
-
-        // for dummy
+    getImageFromLibrary = async function() {
+        const result = await launchImageLibrary();
+        const data = result.assets[0]
+     
+        postImage(data.uri.slice(7)); 
+        
+        setScanResult({"value": 0, "species": 'none', "stage": 'none', 'image':'none'});
         setFeedback(true)
     };
 
@@ -99,40 +105,37 @@ const MainCamera = ({navigation, arrived, addPlant}) => {
       this.addPlant(scanResult);
     };
 
-    const postImage = (imageURI) => {
+    const postImage = (imageURI, base64?) => {
 
-      const form = new FormData();
+      var form = {}
+      if (base64) {
+        form = {'base64': base64}
+      }
+      else {
+        form = {'image': imageURI}
+      }
   
-      form.append('image', imageURI);
-
-      // form.append('image', '/Users/philip/HAIID/plantToPlate/resources/images/iu-7.jpeg');
-
-      const form2 = {image: imageURI}
-
-      const config = {
-        method: 'post',
-        url: 'http://172.16.3.103:5000/get_progress',
-        // headers: {
-        //     "Content-Type": "multipart/form-data",
-        // },
-        data: form,
-        // data: {image: imageURI}
-      };
-  
-      // axios(config)
       axios
-        .post('http://172.16.3.103:5000/get_progress', form, 
-          {
-            withCredentials: true,
-            data: form,
-            // headers: {'Content-Type': 'multipart/form-data'},
-          },
-        )
+        .post('http://172.16.3.103:5000/get_progress', form)
         .then(function (response) {
-          // store response
-          setScanResult({"value": response.data["value"], "species": response.data["species"], "image": imageURI});
-          // show result
-          setFeedback(true);
+          // store response          
+          var value = response.data["value"];
+          var species = response.data["species"]
+          var stage = '';
+          if (value<0.33) {
+            stage = 'Seedling';
+          } else if (value<0.66) {
+            if (species=='potato' || species=='beetroot') {
+              stage = 'Young';
+            } else {
+              stage = 'Flowering';
+            }
+          } else if (value<0.95) {
+            stage = 'Mature';
+          } else {
+            stage = 'Ready to harvest!'
+          };
+          setScanResult({"value": value, "stage": stage, "species": response.data["species"], "image": imageURI});
         })
         .catch(function (error) {
           // handle error
@@ -140,7 +143,7 @@ const MainCamera = ({navigation, arrived, addPlant}) => {
         })
         .finally(function () {
           // always executed
-          console.log(form)
+          // console.log(form)
         });
     };
 
@@ -164,6 +167,7 @@ const MainCamera = ({navigation, arrived, addPlant}) => {
           type={RNCamera.Constants.Type.back}
           flashMode = {flash ? RNCamera.Constants.FlashMode.on : RNCamera.Constants.FlashMode.off }
           captureAudio={false}
+          rectOfInterest={{x:0, y:0.25, width:1, height:0.3}}
           androidCameraPermissionOptions={{
             title: 'Permission to use camera',
             message: 'We need your permission to use your camera',

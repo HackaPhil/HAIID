@@ -4,6 +4,7 @@ import styles from './MealGenerator.styles.js';
 import GreenButton from '../../../components/greenButton/GreenButton.js';
 import Header from '../../../components/header/Header.js';
 import Footer from '../../../components/footer/Footer';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFileLines, faCheck } from '@fortawesome/free-solid-svg-icons';
 
@@ -83,6 +84,22 @@ const MealGenerator = ({navigation}) => {
       setRecipeInfo(false);
     };
 
+    const getRecipes = () => {
+      axios.get(`http://172.16.3.103:5000/get_recipes?userIngredients=${ingredients}&allowMissed=2&recipesWanted=5`)
+      .then(function (response) {
+        // show response
+        alert(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        // handle error
+        alert(error.message);
+      })
+      .finally(function () {
+        // always executed
+        console.log(form)
+      });
+    };
+    
     for (const i in recipeData) {
       recipeItems.push(
         <TouchableOpacity key={i} style={styles.row} onPress={() => dropdownFall()}>
@@ -112,6 +129,7 @@ const MealGenerator = ({navigation}) => {
     }
 
     return (
+      // getRecipes(),
       <SafeAreaView style={styles.background}>
         <Header title="Meal Generator" isIntro={false} notifications={true}></Header>
 
