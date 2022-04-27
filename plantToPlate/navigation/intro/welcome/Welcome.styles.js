@@ -9,11 +9,13 @@ export default StyleSheet.create({
       flexDirection: 'column'
     },
     text: {
-      color: '#fff',
-      fontSize: 22,
+      color: '#FFFFFF',
+      fontSize: 10,
+      flexDirection: 'column',
       fontWeight: 'bold',
       textAlign: 'center',
-      padding: 20,
-      marginTop: 30,
+      padding: 5,
+      marginTop: 70,
     },
+    
 });
