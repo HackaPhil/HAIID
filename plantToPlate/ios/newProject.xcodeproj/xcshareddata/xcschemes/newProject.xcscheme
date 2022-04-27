@@ -60,6 +60,12 @@
             ReferencedContainer = "container:newProject.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "/Users/kanikamehta/Downloads/Xcode.app/Contents/Developer/usr/bin/xcodebuild -workspace newProject.xcworkspace -configuration Debug -scheme newProject -destination id=B7E9EA98-F1D9-4425-971A-0224853E1F43"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

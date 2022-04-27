@@ -2,7 +2,8 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:newProject.xcodeproj">
+      location = "group:newProject.xcodeproj"
+      assignedFileDataType = "public.folder">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
