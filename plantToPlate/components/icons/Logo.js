@@ -1,20 +1,37 @@
-import React, {useState} from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import React from "react";
+import { View, Image, Text, StyleSheet } from "react-native";
 
-const Logo = () => {
-    return (
-        <View style={styles.placeholder}></View>
-    );
-};
+const DisplayAnImageWithStyle = () => {
+  return (
+    <View style={styles.container}>
+      <View>
+        <Image
+          style={{
+            resizeMode:"contain",
+            height: 200,
+            width: 100,
+            marginBottom: 300
+            
+          }}
+          source={require("logo.png")}
+        />
+       
+      </View>
+      
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
-    placeholder: {
-        height: 100,
-        width: 100,
-        margin: 20,
-        backgroundColor: 'white',
-        borderRadius: 100,
-    },
-}); 
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "1%",
+    marginTop: "5%",
+    marginRight: "5%",
+    textAlign: "center"
+  }
+});
 
-export default Logo;
+export default DisplayAnImageWithStyle;
